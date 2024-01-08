@@ -1,0 +1,8 @@
+{
+  "--font":"'IBM Plex Sans', 'Noto Sans TC', sans-serif",
+  "--main-menu-background":"rgba(255, 255, 255, 0.30)",
+  "--hover":"rgba(0, 0, 0, 0.05)",
+  "--default-foreground":"black",
+  "--infobox":"rgba(0, 0, 0, 0.80);",
+  "--infobox-foreground":"white"
+}
