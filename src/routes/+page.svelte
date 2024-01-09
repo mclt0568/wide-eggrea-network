@@ -41,50 +41,45 @@
 </script>
 
 <div style={style} class="page">
-  <Container size="match-all">
-    <Flex crossAxis="stretch">
+  <Box padding="30px">
+    <Flex direction="column" gap="10px">
+      <img src={logo} alt="Wide Eggrea Network Logo"/>
       <div class="menu">
-        <Box padding="60px">
-          <Container size="match-all">
-            <Flex direction="column" gap="32px">
-              <img src={logo}/>
-              <div>
-                <MenuButton text="查看我的部落格"/>
-                <MenuButton text="關於我與網際煎蛋網路"/>
-                <MenuButton text="其他社群、與我聯繫"/>
-              </div>
-            </Flex>
-          </Container>
+        <Box padding="5px">
+          <MenuButton text="查看我的部落格"/>
+          <MenuButton text="關於我與網際煎蛋網路"/>
+          <MenuButton text="其他社群、與我聯繫"/>
         </Box>
       </div>
-      <Box flex="1">
-        {#if coverData}
-          <div class="showcase" 
-            on:mouseenter={infoMouseEnter}
-            on:mouseleave={infoMouseExit}>
-            <CollapsibleCard open={infoStatus} duration={0.2} easing="cubic-bezier(1, 0, 0, 1)">
-              <div slot="header" class="info">
-                <Box padding="8px 50px 0px 12px">
-                  <h3>{coverData.title}</h3>
-                </Box>
-                <Box padding="0px 16px 16px 12px">
-                  <div class="info-description">拍攝於 {coverData.date}</div>
-                </Box>
-              </div>
-              <div class="info-description" slot="body">
-                <Box padding="0px 16px 12px 16px">
-                  <div class="info-description">{coverData.description}</div>
-                </Box>
-                <Box padding="0px 16px 16px 16px">
-                  <div class="info-description">{coverData.copyright}</div>
-                </Box>
-              </div>
-            </CollapsibleCard>
-          </div>
-        {/if}
-      </Box>
     </Flex>
-  </Container>
+  </Box>
+  <Box>
+    {#if coverData}
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
+      <div class="showcase" 
+        on:mouseenter={infoMouseEnter}
+        on:mouseleave={infoMouseExit}>
+        <CollapsibleCard open={infoStatus} duration={0.2} easing="cubic-bezier(1, 0, 0, 1)">
+          <div slot="header" class="info">
+            <Box padding="8px 50px 0px 12px">
+              <h3>{coverData.title}</h3>
+            </Box>
+            <Box padding="0px 16px 16px 12px">
+              <div class="info-description">拍攝於 {coverData.date}</div>
+            </Box>
+          </div>
+          <div class="info-description" slot="body">
+            <Box padding="0px 16px 12px 16px">
+              <div class="info-description">{coverData.description}</div>
+            </Box>
+            <Box padding="0px 16px 16px 16px">
+              <div class="info-description">{coverData.copyright}</div>
+            </Box>
+          </div>
+        </CollapsibleCard>
+      </div>
+    {/if}
+  </Box>
 </div>
 
 <style>
@@ -106,9 +101,14 @@
   
   .menu{
     width: 60vw;
-    max-width: 600px;
+    max-width: 450px;
+    min-width: 350px;
     background: var(--main-menu-background);
     backdrop-filter: blur(3px);
+  }
+  
+  .menu:hover{
+    background: var(--main-menu-background-hover);
   }
 
   .showcase{
@@ -117,16 +117,6 @@
     max-width: 350px;
     right: 50px;
     bottom: 50px;
-  }
-
-  @media only screen and (max-width: 600px) {
-    .menu {
-      max-width: 100vw;
-      width: 100vw;
-    }
-    .showcase{
-      display: none;
-    }
   }
 
   .info{

@@ -1,6 +1,7 @@
 {
   "--font":"'IBM Plex Sans', 'Noto Sans TC', sans-serif",
-  "--main-menu-background":"rgba(255, 255, 255, 0.30)",
+  "--main-menu-background":"rgba(251, 231, 192, 0.3)",
+  "--main-menu-background-hover":"rgba(237, 231, 218, 0.7)",
   "--hover":"rgba(0, 0, 0, 0.05)",
   "--default-foreground":"black",
   "--infobox":"rgba(0, 0, 0, 0.80);",
