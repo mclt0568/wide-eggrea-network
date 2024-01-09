@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Box from "@/components/box.svelte";
 	import Container from "@/components/container.svelte";
 	import Flex from "@/components/flex.svelte";
@@ -7,6 +7,29 @@
 	import MenuButton from "@/components/menuButton.svelte";
   import defaultLight from "@/assets/themes/default-light.json";
   import { CollapsibleCard } from 'svelte-collapsible'
+	import { coverpageStore, type CoverData } from "@/lib/cover";
+	import type { Optional } from "@/lib/types";
+	import { getDownloadURL, ref } from "firebase/storage";
+	import { storage } from "@/lib/database";
+
+
+  
+  let coverData: Optional<CoverData> = undefined;
+  let coverURL: string = "";
+  coverpageStore.subscribe((cover)=>{
+    const index = Math.floor(Math.random()*cover.length);
+    coverData = cover[index];
+    const imageRef = ref(storage, `cover/${index}.png`);
+    getDownloadURL(imageRef).then((url)=>{
+      coverURL = url;
+      style = `--cover-url: url(${coverURL});` + themeToRawStyle(defaultLight);
+    })
+  });
+
+  let style = `--cover-url: url(${coverURL});` + themeToRawStyle(defaultLight);
+  styleStore.subscribe((newStyle) => {
+    style = `--cover-url: url(${coverURL});` + themeToRawStyle(newStyle);
+  });
 
   let infoStatus = false;
   function infoMouseEnter(){
@@ -15,11 +38,6 @@
   function infoMouseExit(){
     infoStatus = false;
   }
-  
-  let style = themeToRawStyle(defaultLight);
-  styleStore.subscribe((newStyle) => {
-    style = themeToRawStyle(newStyle);
-  });
 </script>
 
 <div style={style} class="page">
@@ -40,25 +58,30 @@
         </Box>
       </div>
       <Box flex="1">
-        <div class="showcase" 
-          on:mouseenter={infoMouseEnter}
-          on:mouseleave={infoMouseExit}>
-          <CollapsibleCard open={infoStatus} duration={0.2} easing="cubic-bezier(1, 0, 0, 1)">
-            <div slot="header" class="info">
-              <Box padding="8px 100px 0px 12px">
-                <h3>大阪市區某建築</h3>
-              </Box>
-              <Box padding="0px 16px 8px 12px">
-                <div class="info-description">拍攝於 2020年1月</div>
-              </Box>
-            </div>
-            <div class="info-description" slot="body">
-              <Box padding="0px 16px 8px 16px">
-                <div class="info-description">一月下午陽光明媚，混凝土與玻璃是大阪現代化都市風貌的基色。</div>
-              </Box>
-            </div>
-          </CollapsibleCard>
-        </div>
+        {#if coverData}
+          <div class="showcase" 
+            on:mouseenter={infoMouseEnter}
+            on:mouseleave={infoMouseExit}>
+            <CollapsibleCard open={infoStatus} duration={0.2} easing="cubic-bezier(1, 0, 0, 1)">
+              <div slot="header" class="info">
+                <Box padding="8px 50px 0px 12px">
+                  <h3>{coverData.title}</h3>
+                </Box>
+                <Box padding="0px 16px 16px 12px">
+                  <div class="info-description">拍攝於 {coverData.date}</div>
+                </Box>
+              </div>
+              <div class="info-description" slot="body">
+                <Box padding="0px 16px 12px 16px">
+                  <div class="info-description">{coverData.description}</div>
+                </Box>
+                <Box padding="0px 16px 16px 16px">
+                  <div class="info-description">{coverData.copyright}</div>
+                </Box>
+              </div>
+            </CollapsibleCard>
+          </div>
+        {/if}
       </Box>
     </Flex>
   </Container>
@@ -75,8 +98,9 @@
   }
   
   .page {
-    background-image: url(@/assets/images/1.png);
+    background-image: var(--cover-url);
     background-size: cover;
+    background-position: center;
     height: 100vh;
   }
   
@@ -84,12 +108,13 @@
     width: 60vw;
     max-width: 600px;
     background: var(--main-menu-background);
+    backdrop-filter: blur(3px);
   }
 
   .showcase{
     position: absolute;
     background: var(--infobox);
-    max-width: 300px;
+    max-width: 350px;
     right: 50px;
     bottom: 50px;
   }
@@ -112,6 +137,7 @@
     margin: 0;
     font-size: 24px;
     font-weight: 300;
+    text-align: left;
   }
 
   .info-description{
