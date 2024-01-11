@@ -101,10 +101,6 @@
       </Container>
     </div>
     <div class="content">
-      {titleDragState}
-      {meta.focused}
-      {meta.zIndex}
-      {meta.windowIndex}
     </div>
   </div>
 </div>

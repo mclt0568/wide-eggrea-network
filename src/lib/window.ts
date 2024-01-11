@@ -32,6 +32,20 @@ export function updateWindow(newMeta: WindowMeta<WindowTypes>){
 export function closeWindow(windowId: string){
   delete currentWindows[windowId];
   windowStore.set(currentWindows);
+  if (Object.entries(currentWindows).length === 0){
+    return;
+  }
+  
+  let topMost = 0;
+  let topMostId = "";
+  for (const [id, meta] of Object.entries(currentWindows)){
+    if (meta.windowIndex >= topMost){
+      topMost = meta.windowIndex;
+      topMostId = id;
+    }
+  }
+
+  focusWindow(topMostId);
 }
 
 export function focusWindow(windowId: string){
