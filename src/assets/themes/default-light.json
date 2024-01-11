@@ -11,5 +11,7 @@
   "--window-background":"rgba(255,255,255,0.3)",
   "--window-background-focused":"rgba(255,255,255,0.5)",
   "--window-backdrop":"blur(5px)",
-  "--window-backdrop-focused":"blur(10px)"
+  "--window-backdrop-focused":"blur(10px)",
+  "--window-title-focused":"black",
+  "--window-title-unfocused":"#5A5A5A"
 }

@@ -138,6 +138,11 @@
     font-size: 16px;
     font-weight: 500;
     margin: 0;
+    color: var(--window-title-unfocused);
+  }
+  
+  .focused .title-bar h2 {
+    color: var(--window-title-focused);
   }
 
   .close-control{
