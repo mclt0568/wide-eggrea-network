@@ -20,7 +20,8 @@
   };
 
   function test(){
-    demoMeta.x += 10;
+    demoMeta.x += 20;
+    demoMeta.y += 20;
     demoMeta.windowId += "a";
     updateWindow({...demoMeta});
   }

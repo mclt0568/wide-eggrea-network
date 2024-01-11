@@ -3,6 +3,8 @@
   "--main-menu-background":"rgba(251, 231, 192, 0.3)",
   "--main-menu-background-hover":"rgba(237, 231, 218, 0.7)",
   "--hover":"rgba(0, 0, 0, 0.05)",
+  "--hover-dangerous":"rgba(204, 22, 2, 0.2)",
+  "--dangerous":"rgba(204, 22, 2, 1)",
   "--default-foreground":"black",
   "--infobox":"rgba(0, 0, 0, 0.80);",
   "--infobox-foreground":"white",

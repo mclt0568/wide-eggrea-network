@@ -1,16 +1,21 @@
 <script lang="ts">
-	import { focusWindow, updateWindow, type WindowMeta, type WindowTypes } from "@/lib/window";
+	import { closeWindow, focusWindow, updateWindow, type WindowMeta, type WindowTypes } from "@/lib/window";
 	import Container from "./container.svelte";
 	import Flex from "./flex.svelte";
 	import Box from "./box.svelte";
 	import { Close } from "carbon-icons-svelte";
-	import { createEventDispatcher } from "svelte";
+	import Center from "./center.svelte";
 
   export let meta: WindowMeta<WindowTypes>;
 
   // FOCUS HANDLERS
   function setFocus(){
     focusWindow(meta.windowId);
+  }
+
+  // CLOSE HANDLERS
+  function close(){
+    closeWindow(meta.windowId);
   }
 
   // DRAG HANDLERS
@@ -83,9 +88,15 @@
               </Box>
             </div>
           </Container>
-          <Box padding="7px">
-            <Close size={32} />
-          </Box>
+          <div class="close-control"
+            on:click={close}
+          >
+            <Box padding="7px">
+              <Center>
+                <Close size={32} />
+              </Center>
+            </Box>
+          </div>
         </Flex>
       </Container>
     </div>
@@ -93,6 +104,7 @@
       {titleDragState}
       {meta.focused}
       {meta.zIndex}
+      {meta.windowIndex}
     </div>
   </div>
 </div>
@@ -117,7 +129,7 @@
   }
 
   .drag-region.dragging{
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.2);
   }
 
   .title-bar{
@@ -130,6 +142,15 @@
     font-size: 16px;
     font-weight: 500;
     margin: 0;
+  }
+
+  .close-control{
+    cursor: default;
+    transition: background cubic-bezier(1, 0, 0, 1) 0.1s;
+  }
+
+  .close-control:hover{
+    background: var(--hover);
   }
 </style>
 
