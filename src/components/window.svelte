@@ -25,8 +25,17 @@
   }
   function titleDragHandler(e: MouseEvent){
     if (titleDragState){
-      const deltaX = e.pageX - currentPosition[0];
-      const deltaY = e.pageY - currentPosition[1];
+      let deltaX = e.pageX - currentPosition[0];
+      let deltaY = e.pageY - currentPosition[1];
+
+      if (meta.x + deltaX + meta.width > window.innerWidth){
+        deltaX = 0;
+      }
+      
+      if (meta.y + deltaY + meta.height > window.innerHeight){
+        deltaY = 0;
+      }
+
       const newMeta = {
         ...meta,
         x: meta.x + deltaX,
@@ -41,7 +50,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-  class={"drag-region " + (titleDragState ? "focused" : "")}
+  class={"drag-region " + (meta.focused ? "focused " : "") + (titleDragState ? "dragging" : "")}
   style={`
     padding-left: ${meta.x}px;
     padding-top: ${meta.y}px;
@@ -54,7 +63,7 @@
   on:mousemove={titleDragHandler}
   >
   <div 
-  class={"window " + (titleDragState ? "focused" : "")}
+  class={"window " + (meta.focused ? "focused " : "") + (titleDragState ? "dragging" : "")}
   id={`window-${meta.windowId}`}
   style={`
       width: ${meta.width}px;
@@ -90,9 +99,14 @@
 
 <style>
   .window{
-    backdrop-filter: blur(5px);
-    background: rgba(255,255,255,0.5);
+    backdrop-filter: var(--window-backdrop);
+    background: var(--window-background);
     pointer-events: all;
+  }
+  
+  .window.focused{
+    backdrop-filter: var(--window-backdrop-focused);
+    background: var(--window-background-focused);
   }
 
   .drag-region{
@@ -102,13 +116,14 @@
     position: absolute;
   }
 
-  .drag-region.focused{
+  .drag-region.dragging{
     background: rgba(0,0,0,0.5);
   }
 
   .title-bar{
     height: 46px;
     user-select: none;
+    cursor: grab;
   }
 
   .title-bar h2 {

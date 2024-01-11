@@ -5,5 +5,9 @@
   "--hover":"rgba(0, 0, 0, 0.05)",
   "--default-foreground":"black",
   "--infobox":"rgba(0, 0, 0, 0.80);",
-  "--infobox-foreground":"white"
+  "--infobox-foreground":"white",
+  "--window-background":"rgba(255,255,255,0.3)",
+  "--window-background-focused":"rgba(255,255,255,0.5)",
+  "--window-backdrop":"blur(5px)",
+  "--window-backdrop-focused":"blur(10px)"
 }

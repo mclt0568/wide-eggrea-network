@@ -2,6 +2,7 @@ import { writable, type Writable } from "svelte/store";
 
 export type WindowMeta<T> = {
   windowId: string;
+  windowIndex: number;
   windowType: string;
   data: T;
   title: string;
@@ -22,8 +23,10 @@ export let windowStore: Writable<{[key: string]: WindowMeta<WindowTypes>}> = wri
 windowStore.subscribe(value => {currentWindows = value});
 
 export function updateWindow(newMeta: WindowMeta<WindowTypes>){
+  newMeta.windowIndex = Object.entries(currentWindows).length;
   currentWindows[newMeta.windowId] = newMeta;
   windowStore.set(currentWindows);
+  focusWindow(newMeta.windowId);
 }
 
 export function closeWindow(windowId: string){
@@ -32,17 +35,16 @@ export function closeWindow(windowId: string){
 }
 
 export function focusWindow(windowId: string){
-  let count = 0;
+  const oldIndex = currentWindows[windowId].windowIndex;
+  currentWindows[windowId].windowIndex = Object.entries(currentWindows).length + 1;
   for (const [id, meta] of Object.entries(currentWindows)){
-    count += 1;
-    if (id === windowId){
-      currentWindows[id].focused = true;
-      currentWindows[id].zIndex = 110 + count;
+    let index = currentWindows[id].windowIndex;
+    if (index > oldIndex){
+      currentWindows[id].windowIndex -= 1;
+      index -= 1;
     }
-    else {
-      currentWindows[id].focused = false;
-      currentWindows[id].zIndex = 100 + count - Object.entries(currentWindows).length;
-    }
+    currentWindows[id].focused = id === windowId;
+    currentWindows[id].zIndex = 100 + index;
   }
   windowStore.set(currentWindows);
 }
