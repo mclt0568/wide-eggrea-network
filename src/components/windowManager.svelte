@@ -6,6 +6,7 @@
   windowStore.subscribe(value => { currentWindows = value });
 
   let demoMeta: WindowMeta<EmptyWindow> = {
+    windowIndex: -1,
     windowId: "demo-window",
     windowType: "empty",
     data: {},
