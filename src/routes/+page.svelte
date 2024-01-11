@@ -11,6 +11,7 @@
 	import type { Optional } from "@/lib/types";
 	import { getDownloadURL, ref } from "firebase/storage";
 	import { storage } from "@/lib/database";
+	import WindowManager from "@/components/windowManager.svelte";
 
 
   
@@ -80,6 +81,7 @@
       </div>
     {/if}
   </Box>
+  <WindowManager />
 </div>
 
 <style>
