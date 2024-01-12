@@ -1,19 +1,28 @@
 <script lang="ts">
+  import { getDownloadURL, ref } from "firebase/storage";
 	import Box from "@/components/box.svelte";
 	import Container from "@/components/container.svelte";
 	import Flex from "@/components/flex.svelte";
   import { categoryNameLookup, type BlogPostMeta } from "@/lib/blogPost";
+	import { storage } from "@/lib/database";
 	import { Cafe, Catalog, Folder, Settings } from "carbon-icons-svelte";
 
   export let meta: BlogPostMeta;
+
+  let coverURL = "";
+  if (meta.cover){
+    let coverRef = ref(storage, `blog/${meta.blogId}/${meta.cover}`);
+    getDownloadURL(coverRef).then(url => {coverURL = url;});
+  }
 </script>
 
+<!-- svelte-ignore a11y-missing-attribute -->
 <div class="blog">
-  <!-- {#if meta.cover} -->
-  <img src="https://cdn.discordapp.com/attachments/948527382774571039/1195230804620611644/Image.png"/>
-  <!-- {/if} -->
+  {#if meta.cover}
+    <img src={coverURL}/>
+  {/if}
   <div class="blog-info">
-    <Box padding="6px 20px 10px 20px">
+    <Box padding={meta.cover ? "6px 20px 15px 20px" : "15px 20px"}>
       <h2>{meta.title}</h2>
       <Box margin="10px 0px">
         <h3>{meta.description}</h3>

@@ -6,6 +6,19 @@
 		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Noto+Sans+TC:wght@200;300;400;500;600;700&display=swap" rel="stylesheet"> 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+		<script>
+			let firebaseConfig = {
+				apiKey: "AIzaSyDKCNL2PkGqVO41TNgtBNLEsJApeSHHMzo",
+				authDomain: "wide-eggrea-network.firebaseapp.com",
+				databaseURL: "https://wide-eggrea-network-default-rtdb.asia-southeast1.firebasedatabase.app",
+				projectId: "wide-eggrea-network",
+				storageBucket: "wide-eggrea-network.appspot.com",
+				messagingSenderId: "910746601254",
+				appId: "1:910746601254:web:3d40267cc483cb43daa3e7"
+			};
+			firebase.initializeApp(config);
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

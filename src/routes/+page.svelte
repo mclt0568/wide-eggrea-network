@@ -14,8 +14,6 @@
 	import { windowStore, type WindowMeta, type WindowPayloadTypes, focusWindow, updateWindow } from "@/lib/window";
 	import { blogCatalogue } from "@/lib/windowPresets";
 
-
-  
   let coverData: Optional<CoverData> = undefined;
   let coverURL: string = "";
   coverpageStore.subscribe((cover)=>{

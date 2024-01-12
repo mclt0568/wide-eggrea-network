@@ -6,9 +6,8 @@
 	import FilterToggle from "./blogCatalogue/filterToggle.svelte";
 	import { Cafe, Catalog, Folder } from "carbon-icons-svelte";
 	import { styleStore } from "@/lib/theme";
-	import type { BlogPostMeta } from "@/lib/blogPost";
-	import Color from "color";
 	import BlogCard from "./blogCatalogue/blogCard.svelte";
+	import { blogMetaStore, syncBlogs, type BlogPostMeta } from "@/lib/blogPost";
 
   export let meta: WindowMeta<EmptyWindow>;
 
@@ -25,17 +24,9 @@
     selected = name;
   };
 
-  let demoBlog: BlogPostMeta = {
-    blogId: "ABCDEF",
-    title: "義大利麵拌混泥土",
-    description: "我個人認為義大利麵就應該拌42號混泥土，因為這個螺絲釘的長度很容易直接影響到挖掘機的扭矩。",
-    category: "talk",
-    tags: [],
-    date: [2023, 10, 1],
-    color: Color("#353562"),
-    attachments: [],
-    cover: null,
-  };
+  let blogPosts: {[key: string]: BlogPostMeta} = {};
+  blogMetaStore.subscribe(value => {blogPosts = value;});
+  syncBlogs();
 </script>
 
 <Box padding="0 20px 20px 20px">
@@ -68,7 +59,15 @@
             max-height: ${meta.height - 66}px;
           `}
         >
-          <BlogCard meta={demoBlog}/>
+        <Container size="match-all">
+          <Flex direction="column" gap="20px">
+            {#each Object.entries(blogPosts).slice().reverse() as [id, post]}
+              {#if selected === "all" || selected === post.category}
+              <BlogCard meta={post}/>
+              {/if}
+            {/each}
+          </Flex>
+        </Container>
         </div>
       </Box>
     </Flex>
