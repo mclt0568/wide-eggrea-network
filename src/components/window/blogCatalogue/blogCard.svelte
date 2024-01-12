@@ -66,7 +66,6 @@
 
   h2, h3 {
     margin: 0;
-    user-select: all;
   }
 
   h2 {
@@ -81,6 +80,5 @@
   
   .blogId{
     font-family: 'IBM Plex Mono', monospace;
-    user-select: all;
   }
 </style>
