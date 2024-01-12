@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { windowStore, type EmptyWindow, type WindowMeta, type WindowTypes, updateWindow, closeWindow } from "@/lib/window";
+	import { windowStore, type EmptyWindow, type WindowMeta, type WindowPayloadTypes, updateWindow, closeWindow } from "@/lib/window";
   import Window from "./window.svelte";
 
-  let currentWindows: {[key: string]: WindowMeta<WindowTypes>} = {};
+  let currentWindows: {[key: string]: WindowMeta<WindowPayloadTypes>} = {};
   windowStore.subscribe(value => { currentWindows = value });
 
   let demoMeta: WindowMeta<EmptyWindow> = {
@@ -31,8 +31,6 @@
   }
 </script>
 
-<button on:click={test}>O</button>
-<button on:click={close}>X</button>
 {#each Object.entries(currentWindows) as [id, meta]}
 <Window meta={meta}/>
 {/each}

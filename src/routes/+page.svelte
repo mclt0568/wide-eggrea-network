@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Box from "@/components/box.svelte";
-	import Container from "@/components/container.svelte";
 	import Flex from "@/components/flex.svelte";
 	import { styleStore, themeToRawStyle } from "@/lib/theme";
   import logo from "@/assets/logo.svg";
@@ -12,6 +11,8 @@
 	import { getDownloadURL, ref } from "firebase/storage";
 	import { storage } from "@/lib/database";
 	import WindowManager from "@/components/windowManager.svelte";
+	import { windowStore, type WindowMeta, type WindowPayloadTypes, focusWindow, updateWindow } from "@/lib/window";
+	import { blogCatalogue } from "@/lib/windowPresets";
 
 
   
@@ -39,6 +40,18 @@
   function infoMouseExit(){
     infoStatus = false;
   }
+
+  let currentWindows: {[key: string]: WindowMeta<WindowPayloadTypes>} = {};
+  windowStore.subscribe(value => { currentWindows = value });
+
+  // Menu Options
+  function viewBlog(){
+    if (blogCatalogue.windowId in windowStore){
+      focusWindow(blogCatalogue.windowId);
+      return;
+    }
+    updateWindow({...blogCatalogue});
+  }
 </script>
 
 <div style={style} class="page">
@@ -47,7 +60,7 @@
       <img src={logo} alt="Wide Eggrea Network Logo"/>
       <div class="menu">
         <Box padding="5px">
-          <MenuButton text="查看我的部落格"/>
+          <MenuButton on:click={viewBlog} text="查看我的部落格"/>
           <MenuButton text="關於我與網際煎蛋網路"/>
           <MenuButton text="其他社群、與我聯繫"/>
         </Box>

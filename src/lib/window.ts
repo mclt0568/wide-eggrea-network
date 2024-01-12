@@ -3,7 +3,7 @@ import { writable, type Writable } from "svelte/store";
 export type WindowMeta<T> = {
   windowId: string;
   windowIndex: number;
-  windowType: string;
+  windowType: WindowTypes;
   data: T;
   title: string;
   x: number;
@@ -16,13 +16,15 @@ export type WindowMeta<T> = {
 
 export type EmptyWindow = {};
 
-export type WindowTypes = EmptyWindow;
+export type WindowPayloadTypes = EmptyWindow;
 
-let currentWindows: {[key: string]: WindowMeta<WindowTypes>} = {};
-export let windowStore: Writable<{[key: string]: WindowMeta<WindowTypes>}> = writable(currentWindows);
+export type WindowTypes = "empty" | "blog-catalogue";
+
+let currentWindows: {[key: string]: WindowMeta<WindowPayloadTypes>} = {};
+export let windowStore: Writable<{[key: string]: WindowMeta<WindowPayloadTypes>}> = writable(currentWindows);
 windowStore.subscribe(value => {currentWindows = value});
 
-export function updateWindow(newMeta: WindowMeta<WindowTypes>){
+export function updateWindow(newMeta: WindowMeta<WindowPayloadTypes>){
   newMeta.windowIndex = Object.entries(currentWindows).length;
   currentWindows[newMeta.windowId] = newMeta;
   windowStore.set(currentWindows);

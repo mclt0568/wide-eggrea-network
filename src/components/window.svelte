@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { closeWindow, focusWindow, updateWindow, type WindowMeta, type WindowTypes } from "@/lib/window";
+	import { closeWindow, focusWindow, updateWindow, type WindowMeta, type WindowPayloadTypes } from "@/lib/window";
 	import Container from "./container.svelte";
 	import Flex from "./flex.svelte";
 	import Box from "./box.svelte";
 	import { Close } from "carbon-icons-svelte";
 	import Center from "./center.svelte";
+	import BlogCatalogue from "./window/blogCatalogue.svelte";
 
-  export let meta: WindowMeta<WindowTypes>;
+  export let meta: WindowMeta<WindowPayloadTypes>;
 
   // FOCUS HANDLERS
   function setFocus(){
@@ -101,6 +102,9 @@
       </Container>
     </div>
     <div class="content">
+      {#if meta.windowType === "blog-catalogue"}
+      <BlogCatalogue meta={meta}/>
+      {/if}
     </div>
   </div>
 </div>
