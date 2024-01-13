@@ -6,7 +6,7 @@
   import { categoryNameLookup, type BlogPostMeta } from "@/lib/blogPost";
 	import { storage } from "@/lib/database";
 	import { Cafe, Catalog, Folder, Settings } from "carbon-icons-svelte";
-	import { updateWindow } from "@/lib/window";
+	import { openOrFocusWindow } from "@/lib/window";
 	import { getViewBlogPreset } from "@/lib/windowPresets";
 
   export let meta: BlogPostMeta;
@@ -18,7 +18,7 @@
   }
 
   function openBlog(){
-    updateWindow(getViewBlogPreset(meta));
+    openOrFocusWindow(getViewBlogPreset(meta));
   }
 </script>
 

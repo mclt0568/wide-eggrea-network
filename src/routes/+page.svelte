@@ -11,8 +11,9 @@
 	import { getDownloadURL, ref } from "firebase/storage";
 	import { storage } from "@/lib/database";
 	import WindowManager from "@/components/windowManager.svelte";
-	import { windowStore, type WindowMeta, type WindowPayloadTypes, focusWindow, updateWindow } from "@/lib/window";
-	import { blogCatalogue } from "@/lib/windowPresets";
+	import { windowStore, type WindowMeta, type WindowPayloadTypes, focusWindow, updateWindow, openOrFocusWindow } from "@/lib/window";
+	import { blogCatalogue, getViewBlogPreset } from "@/lib/windowPresets";
+	import { syncBlogs, type BlogPostMeta, blogMetaStore } from "@/lib/blogPost";
 
   let coverData: Optional<CoverData> = undefined;
   let coverURL: string = "";
@@ -41,14 +42,19 @@
 
   let currentWindows: {[key: string]: WindowMeta<WindowPayloadTypes>} = {};
   windowStore.subscribe(value => { currentWindows = value });
+  
+  let currentBlogs = {};
+  let currentBlogPosts: {[key: string]: BlogPostMeta} = {};
+  blogMetaStore.subscribe(value => {currentBlogPosts = value;});
 
   // Menu Options
   function viewBlog(){
-    if (blogCatalogue.windowId in windowStore){
-      focusWindow(blogCatalogue.windowId);
-      return;
-    }
-    updateWindow({...blogCatalogue});
+    openOrFocusWindow({...blogCatalogue});
+  }
+  
+  async function viewAbout(){
+    await syncBlogs();
+    openOrFocusWindow(getViewBlogPreset(currentBlogPosts["000000"]));
   }
 </script>
 
@@ -59,7 +65,7 @@
       <div class="menu">
         <Box padding="5px">
           <MenuButton on:click={viewBlog} text="查看我的部落格"/>
-          <MenuButton text="關於我與網際煎蛋網路"/>
+          <MenuButton on:click={viewAbout} text="關於我與網際煎蛋網路"/>
           <MenuButton text="其他社群、與我聯繫"/>
         </Box>
       </div>

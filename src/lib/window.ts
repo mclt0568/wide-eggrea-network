@@ -36,6 +36,15 @@ export function updateWindow(newMeta: WindowMeta<WindowPayloadTypes>){
   focusWindow(newMeta.windowId);
 }
 
+export function openOrFocusWindow(newMeta: WindowMeta<WindowPayloadTypes>){
+  if (newMeta.windowId in currentWindows){
+    focusWindow(newMeta.windowId);
+    return;
+  }
+  
+  updateWindow(newMeta);
+}
+
 export function closeWindow(windowId: string){
   delete currentWindows[windowId];
   windowStore.set(currentWindows);
