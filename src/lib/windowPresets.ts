@@ -21,7 +21,7 @@ export let getViewBlogPreset: (blogMeta: BlogPostMeta) => WindowMeta<ViewBlogWin
     windowIndex: -1,
     windowType: "view-blog",
     data: {meta: blogMeta},
-    title: `${blogMeta.title} - ${blogMeta.blogId} 貼文內容`,
+    title: `「${blogMeta.title}」的貼文內容`,
     x: 150,
     y: 100,
     width: 800,
