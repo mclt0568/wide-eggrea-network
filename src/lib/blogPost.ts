@@ -1,10 +1,13 @@
 import Color from "color";
 import type { Optional } from "./types";
-import { listDocuments } from "./database";
+import { blogsRef, firestore, listDocuments, storage } from "./database";
 import { writable, type Writable } from "svelte/store";
+import { getDownloadURL, ref } from "firebase/storage";
+import { collection, getDocs } from "firebase/firestore";
 
 export type BlogPostMeta = {
   blogId: string;
+  hidden: boolean;
   title: string;
   description: string;
   category: BlogCategory;
@@ -36,6 +39,7 @@ export async function getBlogs(){
   for (const [id, data] of Object.entries(raw)){
     let meta: BlogPostMeta = {
       blogId: id,
+      hidden: data.hidden,
       title: data.title,
       description: data.description,
       category: data.category,
@@ -58,3 +62,9 @@ export async function syncBlogs(){
 let currentBlogPosts: {[key: string]: BlogPostMeta} = {};
 export const blogMetaStore: Writable<{[key: string]: BlogPostMeta}> = writable({});
 blogMetaStore.subscribe(value => {currentBlogPosts = value;});
+
+export async function getPostContent(blogId: string){
+  const coverRef = ref(storage, `blog/${blogId}/content-zhtw.md`);
+  const url = await getDownloadURL(coverRef);
+  return (await fetch(url)).text();
+}

@@ -1,4 +1,5 @@
-import type { EmptyWindow, WindowMeta } from "./window";
+import type { BlogPostMeta } from "./blogPost";
+import type { EmptyWindow, ViewBlogWindow, WindowMeta } from "./window";
 
 export let blogCatalogue: WindowMeta<EmptyWindow> = {
   windowId: "view-catalogue",
@@ -13,3 +14,19 @@ export let blogCatalogue: WindowMeta<EmptyWindow> = {
   zIndex: -1,
   focused: false,
 };
+
+export let getViewBlogPreset: (blogMeta: BlogPostMeta) => WindowMeta<ViewBlogWindow> = (blogMeta) => {
+  return {
+    windowId: `view-blog-${blogMeta.blogId}`,
+    windowIndex: -1,
+    windowType: "view-blog",
+    data: {meta: blogMeta},
+    title: `${blogMeta.title} - ${blogMeta.blogId} 貼文內容`,
+    x: 150,
+    y: 100,
+    width: 800,
+    height: 750,
+    zIndex: -1,
+    focused: false,
+  }
+}

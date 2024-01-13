@@ -9,7 +9,7 @@
   "--default-foreground-invert":"white",
   "--infobox":"rgba(0, 0, 0, 0.80);",
   "--infobox-foreground":"white",
-  "--window-background":"rgba(165, 165, 165, 0.34)",
+  "--window-background":"rgba(165, 165, 165, 0.5)",
   "--window-background-focused":"rgba(255,255,255,0.5)",
   "--window-backdrop":"blur(5px)",
   "--window-backdrop-focused":"blur(15px)",

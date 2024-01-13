@@ -6,6 +6,8 @@
   import { categoryNameLookup, type BlogPostMeta } from "@/lib/blogPost";
 	import { storage } from "@/lib/database";
 	import { Cafe, Catalog, Folder, Settings } from "carbon-icons-svelte";
+	import { updateWindow } from "@/lib/window";
+	import { getViewBlogPreset } from "@/lib/windowPresets";
 
   export let meta: BlogPostMeta;
 
@@ -14,10 +16,16 @@
     let coverRef = ref(storage, `blog/${meta.blogId}/${meta.cover}`);
     getDownloadURL(coverRef).then(url => {coverURL = url;});
   }
+
+  function openBlog(){
+    updateWindow(getViewBlogPreset(meta));
+  }
 </script>
 
 <!-- svelte-ignore a11y-missing-attribute -->
-<div class="blog">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div on:click={openBlog} class="blog">
   {#if meta.cover}
     <img src={coverURL}/>
   {/if}

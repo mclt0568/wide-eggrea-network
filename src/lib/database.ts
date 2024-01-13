@@ -27,7 +27,7 @@ export const coverRef = dbRef(database, "cover");
 export const storage = getStorage(app);
 
 // firestore
-const firestore = getFirestore(app);
+export const firestore = getFirestore(app);
 export const blogsRef = collection(firestore, "blogPosts");
 export async function listDocuments(path: string){
   const snapshot = await getDocs(collection(firestore, path));

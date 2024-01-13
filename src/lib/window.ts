@@ -1,4 +1,5 @@
 import { writable, type Writable } from "svelte/store";
+import type { BlogPostMeta } from "./blogPost";
 
 export type WindowMeta<T> = {
   windowId: string;
@@ -16,9 +17,13 @@ export type WindowMeta<T> = {
 
 export type EmptyWindow = {};
 
-export type WindowPayloadTypes = EmptyWindow;
+export type ViewBlogWindow = {
+  meta: BlogPostMeta;
+};
 
-export type WindowTypes = "empty" | "blog-catalogue";
+export type WindowPayloadTypes = EmptyWindow | ViewBlogWindow;
+
+export type WindowTypes = "empty" | "blog-catalogue" | "view-blog";
 
 let currentWindows: {[key: string]: WindowMeta<WindowPayloadTypes>} = {};
 export let windowStore: Writable<{[key: string]: WindowMeta<WindowPayloadTypes>}> = writable(currentWindows);

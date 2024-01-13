@@ -6,6 +6,7 @@
 	import { Close } from "carbon-icons-svelte";
 	import Center from "./center.svelte";
 	import BlogCatalogue from "./window/blogCatalogue.svelte";
+	import ViewBlog from "./window/viewBlog.svelte";
 
   export let meta: WindowMeta<WindowPayloadTypes>;
 
@@ -104,6 +105,8 @@
     <div class="content">
       {#if meta.windowType === "blog-catalogue"}
       <BlogCatalogue meta={meta}/>
+      {:else if meta.windowType === "view-blog"}
+      <ViewBlog meta={meta}/>
       {/if}
     </div>
   </div>
@@ -158,4 +161,3 @@
     background: var(--hover);
   }
 </style>
-
